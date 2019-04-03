@@ -7,8 +7,10 @@ COPY main.go .
 COPY glide.yaml .
 COPY glide.lock .
 RUN curl https://glide.sh/get | sh
-RUN glide install
-RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' -o webhook
+RUN export GOPATH=$(echo $(pwd)) &&\
+    glide install
+RUN export GOPATH=$(echo $(pwd)) &&\
+    CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' -o webhook
 
 
 
